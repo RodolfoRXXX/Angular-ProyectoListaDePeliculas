@@ -14,10 +14,10 @@
                 <h1 class="card-title text-center">{{ pelicula.titulo }}</h1>
             </div>
             <div class="card-body">
-                <p class="card-text">{{ pelicula.genero }}</p>
-                <p class="card-text"><small class="text-muted">{{ pelicula.year }}</small></p>
-                <p class="card-text">Stock: {{ pelicula.stock }}</p>
-                <p class="card-text">Precio: ${{ pelicula.precio }}</p>
+                <p class="card-text"><small>Género: </small><b style="font-size: 1.2rem;">{{ pelicula.genero }}</b></p>
+                <p class="card-text"><small>Año: </small><b style="font-size: 1.2rem;">{{ pelicula.year }}</b></p>
+                <p class="card-text"><small>Stock: </small><b style="font-size: 1.2rem;">{{ pelicula.stock }}</b></p>
+                <p class="card-text"><small>Precio: </small><b style="font-size: 1.2rem;">${{ pelicula.precio }}</b></p>
             </div>
             <div class="card-footer">
                 <button class="btn m-1" [disabled]="pelicula.stock == 0" [ngClass]="(pelicula.stock > 0)?'btn-success':'btn-danger'" (click)="alquilarPelicula(pelicula)">Alquilar</button>
