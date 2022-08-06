@@ -1,0 +1,32 @@
+<app-detalle *ngIf="idDetalle" [id]="idDetalle" [longArray]="longArray" (cancelar)="cerrarDetalle()" (cambioStock)="recargar()"></app-detalle>
+<app-creacion></app-creacion>
+<table class="table table-primary table-hover">
+    <thead>
+      <tr class="text-center fw-lighter">
+        <th>Foto</th>
+        <th>Título</th>
+        <th>Género</th>
+        <th>Año</th>
+        <th>Stock</th>
+        <th>Precio</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pelicula of peliculas" class="text-center fw-bold" style="font-size: 1.2rem;">
+        <td class="centrado-vertical"><img [src]="pelicula.foto" [alt]="pelicula.titulo" style="height: 150px;"></td>
+        <td class="align-middle">{{ pelicula.titulo }}</td>
+        <td class="align-middle">{{ pelicula.genero }}</td>
+        <td class="align-middle">{{ pelicula.year }}</td>
+        <td class="align-middle">{{ pelicula.stock }}</td>
+        <td class="align-middle">${{ pelicula.precio }}</td>
+        <td class="align-middle">
+            <button class="btn btn-primary m-1" (click)="onDetalle( pelicula.id )">
+                <span *ngIf="(pelicula.id != idDetalle)">Detalle</span>
+                <span *ngIf="(pelicula.id == idDetalle)">Cancelar</span>
+            </button>
+            <button class="btn m-1" [disabled]="pelicula.stock == 0" [ngClass]="(pelicula.stock > 0)?'btn-success':'btn-danger'" (click)="alquilarPelicula(pelicula)">Alquilar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
