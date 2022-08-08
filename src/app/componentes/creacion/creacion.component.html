@@ -1,29 +1,109 @@
 <div class="card mb-3">
-    <div class="d-flex justify-content-center m-auto" >
+    <div class="d-flex justify-content-center m-5" *ngIf="!formulario">
         <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>
 
-    <form class="row g-0">
-        <div class="col-md-4">
-            <img [src]="" class="img-fluid rounded-start" alt="">
+    <form [formGroup]="formulario" (ngSubmit)="onSubmit()" class="row g-0" *ngIf="formulario">
+        <div class="col-md-4 border-end d-flex flex-column justify-content-center">
+            <img [src]="(formulario.get('foto')?.valid)?formulario.get('foto')?.value:'../../assets/img/contenido-no-disponible.jpg'" class="img-fluid rounded-start" alt="">
         </div>
-        <div class="col-md-8 d-flex flex-column justify-content-between">
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        <div class="col-md-8">
+            <div class="card-header">
+                <h2 *ngIf="pelicula"><span class="text-muted">Editando la película:</span> {{ pelicula.titulo }}</h2>
+                <h2 *ngIf="!pelicula">Creando una nueva película</h2>
             </div>
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1">
+            <div class="card-body row">
+                <div class="col-md-6 d-flex flex-column justify-content-between">
+                    <div class="mb-3">
+                        <label for="tituloPel" class="form-label">Título de la película</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="tituloPel" 
+                               formControlName="titulo" 
+                               [ngClass]="formulario.get('titulo')?.valid?'is-valid':(((formulario.get('titulo')?.invalid)&&(formulario.get('titulo')?.dirty||formulario.get('titulo')?.touched))?'is-invalid':'')"
+                        />
+                            <div class="invalid-feedback" *ngIf="(formulario.get('titulo')?.invalid)&&(formulario.get('titulo')?.dirty||formulario.get('titulo')?.touched)">
+                                <span *ngIf="formulario.get('titulo')?.errors?.['required']">Este dato es requerido.<br></span>
+                                <span *ngIf="formulario.get('titulo')?.errors?.['maxlength']">Este datos no puede exceder los 30 caracteres.<br></span>
+                                <span *ngIf="formulario.get('titulo')?.errors?.['minlength']">Este dato no puede ser menor a 2 caracteres.</span>
+                            </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="genero" class="form-label">Género</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="genero" 
+                               formControlName="genero"
+                               [ngClass]="formulario.get('genero')?.valid?'is-valid':(((formulario.get('genero')?.invalid)&&(formulario.get('genero')?.dirty||formulario.get('genero')?.touched))?'is-invalid':'')"
+                        />
+                            <div class="invalid-feedback" *ngIf="(formulario.get('genero')?.invalid)&&(formulario.get('genero')?.dirty||formulario.get('genero')?.touched)">
+                                <span *ngIf="formulario.get('genero')?.errors?.['required']">Este dato es requerido.<br></span>
+                                <span *ngIf="formulario.get('genero')?.errors?.['maxlength']">Este datos no puede exceder los 30 caracteres.<br></span>
+                                <span *ngIf="formulario.get('genero')?.errors?.['minlength']">Este dato no puede ser menor a 2 caracteres.</span>
+                            </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="foto" class="form-label">URL de la imagen</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="foto" 
+                               formControlName="foto"
+                               [ngClass]="formulario.get('foto')?.valid?'is-valid':(((formulario.get('foto')?.invalid)&&(formulario.get('foto')?.dirty||formulario.get('foto')?.touched))?'is-invalid':'')"
+                        />
+                            <div class="invalid-feedback" *ngIf="(formulario.get('foto')?.invalid)&&(formulario.get('foto')?.dirty||formulario.get('foto')?.touched)">
+                                <span *ngIf="formulario.get('foto')?.errors?.['required']">Este dato es requerido.<br></span>
+                                <span *ngIf="formulario.get('foto')?.errors?.['maxlength']">Este dato no puede superar los 200 caracteres.</span>
+                            </div>
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex flex-column justify-content-between">
+                    <div class="mb-3">
+                        <label for="year" class="form-label">Año</label>
+                        <input type="number" 
+                               class="form-control" 
+                               id="year" 
+                               formControlName="year"
+                               [ngClass]="formulario.get('year')?.valid?'is-valid':(((formulario.get('year')?.invalid)&&(formulario.get('year')?.dirty||formulario.get('year')?.touched))?'is-invalid':'')"
+                        />
+                            <div class="invalid-feedback" *ngIf="(formulario.get('year')?.invalid)&&(formulario.get('year')?.dirty||formulario.get('year')?.touched)">
+                                <span *ngIf="formulario.get('year')?.errors?.['required']">Este dato es requerido.<br></span>
+                                <span *ngIf="formulario.get('year')?.errors?.['max']">El año elegido no puede ser menor a 1000.<br></span>
+                                <span *ngIf="formulario.get('year')?.errors?.['min']">El año elegido no puede ser mayor a 2100.</span>
+                            </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="stock" class="form-label">Stock</label>
+                        <input type="number" 
+                               class="form-control" 
+                               id="stock" 
+                               formControlName="stock"
+                               [ngClass]="formulario.get('stock')?.valid?'is-valid':(((formulario.get('stock')?.invalid)&&(formulario.get('stock')?.dirty||formulario.get('stock')?.touched))?'is-invalid':'')"
+                        />
+                            <div class="invalid-feedback" *ngIf="(formulario.get('stock')?.invalid)&&(formulario.get('stock')?.dirty||formulario.get('stock')?.touched)">
+                                <span *ngIf="formulario.get('stock')?.errors?.['required']">Este dato es requerido.</span>
+                            </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="precio" class="form-label">Precio</label>
+                        <input type="number" 
+                               class="form-control" 
+                               id="precio" 
+                               formControlName="precio"
+                               [ngClass]="formulario.get('precio')?.valid?'is-valid':(((formulario.get('precio')?.invalid)&&(formulario.get('precio')?.dirty||formulario.get('precio')?.touched))?'is-invalid':'')"
+                        />
+                            <div class="invalid-feedback" *ngIf="(formulario.get('precio')?.invalid)&&(formulario.get('precio')?.dirty||formulario.get('precio')?.touched)">
+                                <span *ngIf="formulario.get('precio')?.errors?.['required']">Este dato es requerido.</span>
+                            </div>
+                    </div>
+                    <input type="hidden" formControlName="id">
+                </div>
             </div>
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            <div class="card-footer d-flex justify-content-end">
+                <button type="button" class="btn btn-danger me-2" (click)="cancelarCreacion()">Cancelar</button>
+                <button type="submit" class="btn btn-primary" [disabled]="formulario.invalid">Actualizar</button>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </form>
 

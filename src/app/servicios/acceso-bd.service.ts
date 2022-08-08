@@ -39,7 +39,29 @@ export class AccesoBDService {
 
   //PUT
   alquilarPelicula( pelicula: Pelicula ){
-    return this.http.put<Pelicula>(this.url + pelicula.id,pelicula, this.httpOptions)
+    return this.http.put<Pelicula>(this.url + pelicula.id, pelicula, this.httpOptions)
+              .pipe(
+                catchError(this.handleError)
+              );
+  }
+  editarPelicula( pelicula: Pelicula ){
+    return this.http.put<Pelicula>(this.url + pelicula.id, pelicula, this.httpOptions)
+              .pipe(
+                catchError(this.handleError)
+              );
+  }
+
+  //PUSH
+  crearPelicula( pelicula: any ){
+    return this.http.post<Pelicula>(this.url, pelicula, this.httpOptions)
+              .pipe(
+                catchError(this.handleError)
+              );
+  }
+
+  //DELETE
+  eliminarPelicula( id: string ){
+    return this.http.delete(this.url + id, this.httpOptions)
               .pipe(
                 catchError(this.handleError)
               );

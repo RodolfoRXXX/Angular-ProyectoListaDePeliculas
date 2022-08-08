@@ -12,7 +12,7 @@ export class DetalleComponent implements OnInit {
   @Input() longArray: number;
 
   @Output() cancelar = new EventEmitter();
-  @Output() cambioStock = new EventEmitter();
+  @Output() cambios = new EventEmitter();
 
   pelicula: any;
 
@@ -37,8 +37,14 @@ export class DetalleComponent implements OnInit {
 
   alquilarPelicula( pelicula: Pelicula ){
     pelicula.stock--;
-    this.acceso.alquilarPelicula( pelicula ).subscribe( (data) => {} )
-    this.cambioStock.emit();
+    this.acceso.alquilarPelicula( pelicula ).subscribe({
+      next: () => {
+        this.cambios.emit('alquilado')
+      },
+      error: () => {
+        this.cambios.emit('noalquilado')
+      }
+    })
   }
 
   prev( id: string ){

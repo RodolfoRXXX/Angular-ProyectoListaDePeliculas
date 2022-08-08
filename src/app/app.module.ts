@@ -9,6 +9,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { DetalleComponent } from './componentes/detalle/detalle.component';
 import { CreacionComponent } from './componentes/creacion/creacion.component';
 
+import { ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +21,8 @@ import { CreacionComponent } from './componentes/creacion/creacion.component';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

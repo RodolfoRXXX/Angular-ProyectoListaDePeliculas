@@ -1,5 +1,34 @@
-<app-detalle *ngIf="idDetalle" [id]="idDetalle" [longArray]="longArray" (cancelar)="cerrarDetalle()" (cambioStock)="recargar()"></app-detalle>
-<app-creacion></app-creacion>
+<button class="btn btn-outline-primary mb-2" (click)="abrirCreacion()">Crear una nueva película</button>
+  <div class="alert p-3 text-center" 
+       *ngIf="estado == 'creado'||estado == 'nocreado'" 
+       [ngClass]="estado == 'creado'?'alert-success':((estado == 'nocreado')?'alert-danger':'')"
+  >
+    <span *ngIf="estado == 'creado'">La creación del nuevo registro fue exitosa!</span>
+    <span *ngIf="estado == 'nocreado'">No se ha podido crear el registro nuevo.</span>
+  </div>
+  <div class="alert p-3 text-center" 
+       *ngIf="estado == 'actualizado'||estado == 'noactualizado'"
+       [ngClass]="estado == 'actualizado'?'alert-success':((estado == 'noactualizado')?'alert-danger':'')"
+  >
+    <span *ngIf="estado == 'actualizado'">La actualización del registro fue exitosa.</span>
+    <span *ngIf="estado == 'noactualizado'">No se ha podido actualizar el registro con éxito.</span>
+  </div>
+  <div class="alert p-3 text-center" 
+       *ngIf="estado == 'alquilado'||estado == 'noalquilado'"
+       [ngClass]="estado == 'alquilado'?'alert-success':((estado == 'noalquilado')?'alert-danger':'')"
+  >
+    <span *ngIf="estado == 'alquilado'">El alquiler se ha realizado con éxito</span>
+    <span *ngIf="estado == 'noalquilado'">El alquiler no se ha realizado.</span>
+  </div>
+  <div class="alert p-3 text-center" 
+       *ngIf="estado == 'eliminado'||estado == 'noeliminado'"
+       [ngClass]="estado == 'eliminado'?'alert-success':((estado == 'noeliminado')?'alert-danger':'')"     
+  >
+    <span *ngIf="estado == 'eliminado'">El registro fue eliminado con éxito!</span>
+    <span *ngIf="estado == 'noeliminado'">No se ha podido eliminar el registro.</span>
+  </div>
+<app-detalle *ngIf="idDetalle" [id]="idDetalle" [longArray]="longArray" (cancelar)="cerrarDetalle()" (cambios)="recargar($event)"></app-detalle>
+<app-creacion *ngIf="idEdicion" [id]="idEdicion" (cancelar)="cerrarCreacion()" (cambios)="recargar($event)"></app-creacion>
 <table class="table table-primary table-hover">
     <thead>
       <tr class="text-center fw-lighter">
@@ -26,7 +55,11 @@
                 <span *ngIf="(pelicula.id == idDetalle)">Cancelar</span>
             </button>
             <button class="btn m-1" [disabled]="pelicula.stock == 0" [ngClass]="(pelicula.stock > 0)?'btn-success':'btn-danger'" (click)="alquilarPelicula(pelicula)">Alquilar</button>
-        </td>
+            <button class="btn btn-info m-2" (click)="editarPelicula(pelicula.id)">
+              <span *ngIf="pelicula.id != idEdicion">Editar</span>
+              <span *ngIf="pelicula.id == idEdicion">Cancelar</span>
+            </button>
+            <button class="btn btn-danger m-1" (click)="eliminarPelicula(pelicula.id)">Eliminar</button>
       </tr>
     </tbody>
   </table>
